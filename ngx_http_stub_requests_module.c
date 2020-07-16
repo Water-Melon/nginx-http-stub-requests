@@ -523,11 +523,15 @@ static ngx_int_t ngx_http_stub_requests_log_handler(ngx_http_request_t *r) {
   e->start_sec = r->start_sec;
   e->start_msec = r->start_msec;
 
+#if (NGX_SSL || NGX_COMPAT)
   if (r->connection->ssl != NULL) {
     e->ssl = 1;
   } else {
     e->ssl = 0;
   }
+#else
+  e->ssl = 0;
+#endif
 
   e->worker = ngx_worker;
 
